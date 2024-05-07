@@ -1,0 +1,22 @@
+name: 项目部署
+on: push
+
+permissions:
+  contents: write
+
+jobs:
+  npm-build:
+    name: 打包部署
+    runs-on: ubuntu-latest
+    steps:
+      - name: 读取仓库代码
+        uses: actions/checkout@v4
+      - name: 安装依赖和项目打包
+        run: |
+          npm install
+          npm run build
+      - name: 部署
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: hhd-pages
+          folder: dist
