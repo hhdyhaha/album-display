@@ -4,8 +4,8 @@ import axiosInstance from '@/utils/http'
 export const getAlbumDataApi = (params: object) => {
     return axiosInstance({
         url: '/getSingerAlbum',
-        method: 'post',
-        data: params,
+        method: 'get',
+        params,
         timeout: 10000
     })
 }
