@@ -16,6 +16,7 @@ export default defineConfig(({ command, mode }) => {
             },
         },
         server: {
+            host:true,
             proxy: {
                 // 使用环境变量值作为键名的动态方式
                 [baseApi]: { // 这里改正了使用环境变量的方式
