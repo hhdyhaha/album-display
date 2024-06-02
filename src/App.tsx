@@ -35,7 +35,7 @@ import {
 
 const tabs = [
     {
-        key: 'home',
+        key: 'Home',
         title: '首页',
         icon: <AppOutline/>,
         badge: Badge.dot,
