@@ -1,29 +1,3 @@
-// import {Button} from 'antd';
-// import './App.css'
-// import {getAlbumDataApi} from "@/api";
-// import { Layout } from "antd";
-//
-// function getAlbumData() {
-//     const params = {
-//         singermid: '000CK5xN3yZDJt',
-//         limit: 52
-//     }
-//     getAlbumDataApi(params).then(res => {
-//         console.log(res)
-//     })
-// }
-//
-// function App() {
-//     return (
-//         <>
-//             <div className='w-full h-1/2 bg-red-200'>
-//                 haha
-//             </div>
-//         </>
-//     )
-// }
-//
-// export default App
 import type {FC} from 'react'
 import {Badge, TabBar} from 'antd-mobile'
 import {
