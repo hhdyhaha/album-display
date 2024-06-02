@@ -15,7 +15,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+:root:root {
+  --adm-color-primary: #800080;
+}
 a {
   font-weight: 500;
   color: #646cff;
