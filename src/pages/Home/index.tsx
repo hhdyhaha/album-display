@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Space, Swiper, Image, Toast} from 'antd-mobile'
 import {getAlbumDataApi, getImageUrlApi} from "@/api";
-import {useImmer} from 'use-immer'
+
 
 function ImageData() {
-    const [albumlist, setAlbumlist] = useImmer([])
-    const [albumlistTotal, setAlbumlistTotal] = useImmer(0)
+    const [albumlist, updateAlbumlist] = useState([])
+    const [albumlistTotal, setAlbumlistTotal] = useState(0)
     // 使用useEffect来处理副作用，如数据获取
     useEffect(() => {
         getAlbumData();
@@ -14,20 +14,24 @@ function ImageData() {
     async function getAlbumData() {
         const params = {
             singermid: '000CK5xN3yZDJt',
-            limit: 52
+            limit: 30
         }
         await getAlbumDataApi(params).then(res => {
-            if (res.status !== 200) {
+            if (res.status === 200) {
                 const data = res.data.response.singer.data
-                // 专辑列表
-                setAlbumlist(data.albumlist.map((item: any) =>
-                    <div key={item.albumMid}>
-                        const pmid = item.pmid
-                        getImageUrl(pmid)
-                    </div>
-                ))
                 // 专辑总数
                 setAlbumlistTotal(data.total)
+                // 专辑列表
+                data.albumList.map(async (item) => {
+                        const pmid = item.pmid
+                        const imageUrl = await getImageUrl(pmid)
+                        console.log('imageUrl', imageUrl)
+                        // 更新专辑列表状态
+                        updateAlbumlist(prev => [...prev, {...item, imageUrl}])
+                    }
+                )
+                console.log('albumlist', albumlist)
+
             } else {
                 Toast.show({
                     icon: 'fail',
@@ -40,29 +44,43 @@ function ImageData() {
     }
 
     // 获取专辑图片
-    async function getImageUrl(id:string) {
+    async function getImageUrl(id: string) {
         const params = {
             id
         }
-        await getImageUrlApi(params).then(res => {
-            console.log('res',res)
-            // if (res.status !== 200) {
-            //     const data = res.data.response.data
-            //     console.log(data)
-            // } else {
-            //     Toast.show({
-            //         icon: 'fail',
-            //         content: '获取数据失败',
-            //         position: 'center'
-            //     })
-            // }
-        })
+        const res = await getImageUrlApi(params)
+        if (res.status === 200) {
+            const data = res.data.response.data
+            const imageUrl = data.imageUrl
+            // console.log('imageUrl',imageUrl)
+            return imageUrl
+        } else {
+            Toast.show({
+                icon: 'fail',
+                content: '获取数据失败',
+                position: 'center'
+            })
+        }
+
+
     }
 
-
+    return (
+        <div>
+            {albumlist.map((item, index) => (
+                <Image
+                    key={index}
+                    src={item.imageUrl}
+                    width={64}
+                    height={64}
+                    fit='cover'
+                    style={{borderRadius: 32}}
+                />
+            ))}
+        </div>
+    )
 }
 
-const demoSrc = "https://puui.qpic.cn/vpic_cover/h3345zrkd0f/h3345zrkd0f_hz.jpg/1280"
 
 function HomePage() {
     return (
@@ -84,13 +102,7 @@ function HomePage() {
                                 <div
                                     className="h-full bg-red-200 flex items-center justify-center m-1"
                                 >
-                                    <Image
-                                        src={demoSrc}
-                                        width={64}
-                                        height={64}
-                                        fit='cover'
-                                        style={{borderRadius: 32}}
-                                    />
+                                    <ImageData/>
                                 </div>
                             </Swiper.Item>
                         )}
