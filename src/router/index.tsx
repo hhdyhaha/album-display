@@ -2,6 +2,7 @@ import {Navigate} from 'react-router-dom'
 import Home from '@/pages/Home'
 import ListenRandom from '@/pages/ListenRandom'
 import Mine from '@/pages/Mine'
+import AlbumDetail from '@/pages/AlbumDetail'
 
 
 // 全局路由
@@ -14,7 +15,10 @@ export const globalRouters = [
     {
         path: '/home',
         element: <Home/>,
-
+    },
+    {
+        path: '/albumDetail',
+        element: <AlbumDetail/>,
     },
     {
         path: '/listen',

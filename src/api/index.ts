@@ -19,3 +19,13 @@ export const getImageUrlApi = (params: object) => {
         timeout: 10000
     })
 }
+
+// 获取专辑里歌曲信息 getAlbumInfo
+export const getAlbumInfoApi = (params: object) => {
+    return axiosInstance({
+        url: '/getAlbumInfo',
+        method: 'get',
+        params,
+        timeout: 10000
+    })
+}
