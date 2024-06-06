@@ -1,13 +1,15 @@
 import {useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Space, Swiper, Image, Toast} from 'antd-mobile';
 import {getAlbumDataApi, getAlbumInfoApi} from "@/api";
 import {getImageUrl} from '@/utils/util'
+
 interface AlbumType {
     pmid: string;
-    albumMid:string
+    albumMid: string
 }
-function ImageData({album}:{album: AlbumType}) {
+
+function ImageData({album}: { album: AlbumType }) {
     const [imageUrl, setImageUrl] = useState('');
     const navigate = useNavigate();
     useEffect(() => {
@@ -20,18 +22,17 @@ function ImageData({album}:{album: AlbumType}) {
     }, [album]);
 
     // 获取专辑里歌曲信息
-    function getAlbumInfo(albummid:string) {
+    function getAlbumInfo(albummid: string) {
         const params = {
             albummid,
         };
         getAlbumInfoApi(params).then((res) => {
             if (res.status === 200) {
                 const data = res.data.response.data;
-                if(data.list){
+                if (data.list) {
                     const albumSongList = data.list;
-                    navigate('/albumDetail', { state: { albumSongsList: albumSongList } });
+                    navigate('/albumDetail', {state: {albumSongsList: albumSongList}});
                 }
-                console.log('获取专辑歌曲信息',data);
             } else {
                 Toast.show({
                     icon: 'fail',
@@ -41,6 +42,7 @@ function ImageData({album}:{album: AlbumType}) {
             }
         });
     }
+
     const clickImg = () => {
         getAlbumInfo(album.albumMid)
     }
@@ -50,12 +52,11 @@ function ImageData({album}:{album: AlbumType}) {
             width={64}
             height={64}
             fit='cover'
-            style={{borderRadius: 32}}
+            style={{borderRadius: 32, marginBottom: 10}}
             onClick={clickImg}
         />
     );
 }
-
 
 
 function HomePage() {
@@ -98,26 +99,26 @@ function HomePage() {
                 {albumlist.length > 0 ? (
 
                     <Space className="w-full" direction='vertical' block>
-                    <Swiper
-                        style={{'--height': '50dvh'}}
-                        slideSize={60}
-                        trackOffset={20}
-                        stuckAtBoundary={false}
-                        total={albumlist.length}
-                        indicator={false}
-                        defaultIndex={2}
-                        autoplay={true}
-                    >
-                        {albumlist.map((album:any, index:number) => (
-                            <Swiper.Item key={index}>
-                                <div className="h-full bg-red-200 flex items-center justify-center m-1">
-                                    <ImageData album={album}/>
-                                    {album.albumName}
-                                </div>
-                            </Swiper.Item>
-                        ))}
-                    </Swiper>
-                </Space>
+                        <Swiper
+                            style={{'--height': '50dvh'}}
+                            slideSize={60}
+                            trackOffset={20}
+                            stuckAtBoundary={false}
+                            total={albumlist.length}
+                            indicator={false}
+                            defaultIndex={2}
+                            autoplay={true}
+                        >
+                            {albumlist.map((album: any, index: number) => (
+                                <Swiper.Item key={index}>
+                                    <div className="h-full bg-red-200 flex flex-col items-center justify-center m-1">
+                                        <ImageData album={album}/>
+                                        {album.albumName}
+                                    </div>
+                                </Swiper.Item>
+                            ))}
+                        </Swiper>
+                    </Space>
                 ) : (
                     <div>Loading...</div> // 或者其他加载指示器
                 )}
