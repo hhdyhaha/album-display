@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Space, Swiper, Image, Toast} from 'antd-mobile';
-import {getAlbumDataApi, getImageUrlApi, getAlbumInfoApi} from "@/api";
-
+import {getAlbumDataApi, getAlbumInfoApi} from "@/api";
+import {getImageUrl} from '@/utils/util'
 interface AlbumType {
     pmid: string;
     albumMid:string
@@ -12,32 +12,13 @@ function ImageData({album}:{album: AlbumType}) {
     const navigate = useNavigate();
     useEffect(() => {
         if (album.pmid) {
-            fetchImageUrl(album.pmid);
-        }
-    }, [album]);
-    // 获取图片
-    const fetchImageUrl = async (pmid: string) => {
-        const params = {id: pmid};
-        try {
-            const res = await getImageUrlApi(params);
-            if (res.status === 200) {
-                const data = res.data.response.data;
-                setImageUrl(data.imageUrl);
-            } else {
-                Toast.show({
-                    icon: 'fail',
-                    content: '获取图片失败',
-                    position: 'center',
-                });
-            }
-        } catch (error) {
-            Toast.show({
-                icon: 'fail',
-                content: '获取图片失败',
-                position: 'center',
+            const imgUrl = getImageUrl(album.pmid);
+            imgUrl.then((res) => {
+                setImageUrl(res);
             });
         }
-    };
+    }, [album]);
+
     // 获取专辑里歌曲信息
     function getAlbumInfo(albummid:string) {
         const params = {
@@ -127,10 +108,11 @@ function HomePage() {
                         defaultIndex={2}
                         autoplay={true}
                     >
-                        {albumlist.map((album, index) => (
+                        {albumlist.map((album:any, index:number) => (
                             <Swiper.Item key={index}>
                                 <div className="h-full bg-red-200 flex items-center justify-center m-1">
                                     <ImageData album={album}/>
+                                    {album.albumName}
                                 </div>
                             </Swiper.Item>
                         ))}
