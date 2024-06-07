@@ -29,11 +29,14 @@ function AlbumDetailPage() {
 
     // 定义处理点击事件的函数，根据需要实现具体逻辑
     const handleClickSong = (song) => {
+        console.log(song,'song')
+        // 跳转链接
+        window.location.href = `https://i.y.qq.com/v8/playsong.html?songmid=${song.songmid}`;
         // 在这里添加点击歌曲后的处理逻辑
-        Toast.show({
-            content: '支持正版🙏🙏，暂无播放链接！！感谢理解🫡',
-            position: 'center',
-        });
+        // Toast.show({
+        //     content: '支持正版🙏🙏，暂无播放链接！！感谢理解🫡',
+        //     position: 'center',
+        // });
     };
     return (
         <List mode='card' header='专辑歌曲列表'>
