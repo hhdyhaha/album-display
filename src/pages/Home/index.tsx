@@ -47,14 +47,46 @@ function ImageData({album}: { album: AlbumType }) {
         getAlbumInfo(album.albumMid)
     }
     return (
-        <Image
-            src={imageUrl}
-            width={64}
-            height={64}
-            fit='cover'
-            style={{borderRadius: 32, marginBottom: 10}}
-            onClick={clickImg}
-        />
+        <div
+            className="h-full flex flex-col items-center justify-center m-1"
+        >
+            {/* 使用伪元素来创建虚化效果 */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 10,
+                    left: 10,
+                    right: 10,
+                    bottom: 10,
+                    backgroundImage: `url(${imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    filter: 'blur(2px)', // 虚化效果
+                    zIndex: 1, // 确保伪元素在最上层
+                }}
+            />
+            {/* 其他内容保持不变 */}
+            <Image
+                src={imageUrl}
+                width={64}
+                height={64}
+                fit='cover'
+                style={{
+                    borderRadius: 32, marginBottom: 10, zIndex: 2
+                }}
+                onClick={clickImg}
+            />
+
+            {/* 使用 p 标签包裹文本，并添加样式 */}
+            <p style={{
+                color: 'black', // 确保文本颜色与背景形成对比
+                position: 'relative', // 相对于父元素定位
+                zIndex: 3, // 确保文本在图片和模糊背景之上
+            }}>
+                {album.albumName}
+            </p>
+
+        </div>
     );
 }
 
@@ -106,15 +138,12 @@ function HomePage() {
                             stuckAtBoundary={false}
                             total={albumlist.length}
                             indicator={false}
-                            defaultIndex={2}
+                            defaultIndex={5}
                             autoplay={true}
                         >
                             {albumlist.map((album: any, index: number) => (
                                 <Swiper.Item key={index}>
-                                    <div className="h-full bg-red-200 flex flex-col items-center justify-center m-1">
-                                        <ImageData album={album}/>
-                                        {album.albumName}
-                                    </div>
+                                    <ImageData album={album}/>
                                 </Swiper.Item>
                             ))}
                         </Swiper>
