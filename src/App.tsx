@@ -52,15 +52,35 @@ const Bottom: FC = () => {
     )
 }
 
+function Header() {
+    const location = useLocation()
+    const {pathname} = location
+    const getTitle = (pathname:string) => {
+        switch (pathname) {
+            case '/home':
+                return '今天来听音乐'
+            case '/listen':
+                return '听点儿什么'
+            case '/mine':
+                return '我的'
+            default:
+                return '今天来听音乐'
+        }
+    }
+    return (
+        <header className="w-full h-20 bg-amber-50 flex items-center justify-center">
+            <div>
+                {getTitle(pathname)}
+            </div>
+        </header>
+    )
+}
+
 function App() {
     return (
         <div className="w-full h-full flex flex-col">
             <Router>
-                <header className="w-full h-20 bg-amber-50 flex items-center justify-center">
-                    <div>
-                        今天来听歌
-                    </div>
-                </header>
+                <Header/>
                 <main className="flex-grow">
                     <Routes>
                         {Array.isArray(globalRouters) ? // 确认globalRouters是数组才执行映射
