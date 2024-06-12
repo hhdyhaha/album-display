@@ -37,8 +37,8 @@ const Bottom: FC = () => {
             badge: '5',
         },
         {
-            key: '/mine',
-            title: '我的',
+            key: '/vae',
+            title: 'Vae+',
             icon: <UserOutline/>,
         },
     ]

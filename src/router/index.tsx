@@ -1,7 +1,7 @@
 import {Navigate} from 'react-router-dom'
 import Home from '@/pages/Home'
 import ListenRandom from '@/pages/ListenRandom'
-import Mine from '@/pages/Mine'
+import Vae from '../pages/Vae'
 import AlbumDetail from '@/pages/AlbumDetail'
 
 
@@ -25,8 +25,8 @@ export const globalRouters = [
         element: <ListenRandom/>,
     },
     {
-        path: '/mine',
-        element: <Mine/>,
+        path: '/vae',
+        element: <Vae/>,
     },
     {
         // 未匹配，跳转Login页面
